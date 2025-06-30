@@ -1,14 +1,6 @@
 // core-enhancements.js
 import { initFirebase } from "./firebase-init.js";
-
-const {
-  auth,
-  db,
-  ref,
-  push,
-  update,
-  onValue
-} = await initFirebase();
+const { auth, db } = await initFirebase();
 
 // ─────────── SAFE DOM HELPERS ───────────
 function $(id) {
