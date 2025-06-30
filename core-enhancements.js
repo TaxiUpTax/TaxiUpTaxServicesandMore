@@ -92,8 +92,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("⚠️ Sidebar or main-area container not found.");
   }
 });
-  if (!sideMenu || !mainArea) {
-    console.warn("⚠️ Sidebar or main-area container not found.");
-  }
-});
+ 
 
