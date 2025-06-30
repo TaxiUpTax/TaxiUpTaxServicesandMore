@@ -1,9 +1,9 @@
 {
-  "apiKey": "your-api-key",
-  "authDomain": "your-project-id.firebaseapp.com",
-  "projectId": "your-project-id",
-  "storageBucket": "your-project-id.appspot.com",
-  "messagingSenderId": "your-messaging-id",
-  "appId": "your-app-id",
-  "databaseURL": "https://your-project-id.firebaseio.com"
+  "apiKey": "AIzaSyCrEF78YhKW1lnCut3E9yjg8TAYncuptX0",
+  "authDomain": "taxiuptax.firebaseapp.com",
+  "projectId": "taxiuptax",
+  "storageBucket": "taxiuptax.appspot.app",
+  "messagingSenderId": "204487687625",
+  "appId": "1:204487687625:web:be475ef72eb893b228bc18",
+  "databaseURL": "https://taxiuptax-default-rtdb.firebaseio.com"
 }
