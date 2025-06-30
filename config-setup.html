@@ -87,11 +87,13 @@
       const savedConfig = JSON.parse(localStorage.getItem("firebaseConfig") || "{}");
       const isLocked = localStorage.getItem("firebaseConfigLocked") === "true";
 
-      if (!savedConfig.apiKey) {
-        // No config saved yet – allow form
+      // 🔒 Check if config is locked globally
+      if (isLocked) {
+        window.location.href = "home.html";
+      } else if (!savedConfig.apiKey) {
         document.getElementById("configFormContainer").classList.remove("hidden");
       } else {
-        // Config exists – proceed to validation
+        // Firebase config exists – check role
         const app = initializeApp(savedConfig);
         const auth = getAuth();
         const db = getDatabase();
@@ -111,10 +113,10 @@
 
             if (role !== "buyer") {
               window.location.href = "home.html";
-            } else if (configDone || isLocked) {
+            } else if (configDone) {
+              localStorage.setItem("firebaseConfigLocked", "true");
               window.location.href = "dashboard.html";
             } else {
-              // Show form only once to buyers
               document.getElementById("configFormContainer").classList.remove("hidden");
             }
           });
@@ -130,10 +132,10 @@
           storageBucket: document.getElementById("storageBucket").value.trim(),
           messagingSenderId: document.getElementById("messagingSenderId").value.trim(),
           appId: document.getElementById("appId").value.trim(),
-          databaseURL: document.getElementById("databaseURL").value.trim().replace(/^"+|"+$/g, ""),
+          databaseURL: document.getElementById("databaseURL").value.trim().replace(/^"+|"+$/g, "")
         };
 
-        if (Object.values(config).some((val) => val === "")) {
+        if (Object.values(config).some(val => val === "")) {
           alert("Please fill in all fields.");
           return;
         }
@@ -145,14 +147,17 @@
         const auth = getAuth();
         const db = getDatabase();
 
-        const user = auth.currentUser;
-        if (user) {
-          const uid = user.uid;
-          await update(ref(db, `students/${uid}`), { configCompleted: true });
-        }
-
-        alert("Config saved! Redirecting...");
-        window.location.href = "dashboard.html";
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const uid = user.uid;
+            await update(ref(db, `students/${uid}`), { configCompleted: true });
+            alert("Config saved! Redirecting...");
+            window.location.href = "dashboard.html";
+          } else {
+            alert("Please log in again before continuing.");
+            window.location.href = "index.html";
+          }
+        });
       }
 
       function resetConfig() {
