@@ -15,19 +15,22 @@ import {
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-// 🔐 Load config from localStorage
-const savedConfig = localStorage.getItem("firebaseConfig");
-if (!savedConfig) {
-  alert("Firebase config not found. Please complete the setup.");
-  window.location.href = "config-setup.html";
-  throw new Error("Missing Firebase config");
-}
-const firebaseConfig = JSON.parse(savedConfig);
+// 🔐 Hardcoded Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCrEF78YhKW1lnCut3E9yjg8TAYncuptX0",
+  authDomain: "taxiuptax.firebaseapp.com",
+  projectId: "taxiuptax",
+  storageBucket: "taxiuptax.appspot.com",
+  messagingSenderId: "204487687625",
+  appId: "1:204487687625:web:be475ef72eb893b228bc18",
+  databaseURL: "https://taxiuptax-default-rtdb.firebaseio.com"
+};
 
 // ⚙️ Initialize Firebase
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+
 
 // 🎨 Admin-controlled background styling
 const adminSettingsRef = ref(db, "adminSettings");
