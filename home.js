@@ -1,31 +1,27 @@
 // -----------------------------------------------------------------------------
 //  home.js  –  CLEAN, SYNCED, AND ERROR‑FREE VERSION
 // -----------------------------------------------------------------------------
-
-// ✅ Load Firebase and extract everything needed AFTER config is loaded
-import { initFirebase } from "./firebase-init.js";
-const { auth, db } = await initFirebase();
-
+//  ✅ Imports (Firebase Modular SDK v9)
+import { auth, db } from "./firebase-init.js";
 import {
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-// 🔧 Admin-controlled dynamic styling
+import {
+  ref,
+  onValue,
+  update,
+  set,
+  remove,
+  get,
+  child,
+  push,
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 const adminSettingsRef = ref(db, "adminSettings");
-
-onValue(adminSettingsRef, (snapshot) => {
-  const settings = snapshot.val() || {};
-  if (settings.backgroundColor) {
-    document.body.style.backgroundColor = settings.backgroundColor;
-  }
-  if (settings.backgroundImage) {
-    document.body.style.backgroundImage = `url(${settings.backgroundImage})`;
-    document.body.style.backgroundSize = "cover";
-  } else {
-    document.body.style.backgroundImage = "none";
-  }
-});
+onValue(
+  adminSettingsRef,
+  (snapshot) => {
+    const settings = snapshot.val() || {};
 
     // Apply background color to body
     if (settings.backgroundColor) {
