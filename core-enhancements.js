@@ -1,6 +1,5 @@
 // core-enhancements.js
-import { initFirebase } from "./firebase-init.js";
-const { auth, db } = await initFirebase();
+// 🌟 Enhances UX, patch safety gaps, and adds helpful global utilities
 
 // ─────────── SAFE DOM HELPERS ───────────
 function $(id) {
@@ -16,6 +15,8 @@ export function escapeHTML(str = "") {
 }
 
 // ─────────── NOTIFICATION CORE ───────────
+import { auth, db, ref, push, update, onValue } from "./firebase-init.js";
+
 export const notifPath = (uid) => `notifications/${uid}`;
 
 export function createNotification(uid, data) {
@@ -87,6 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   restoreSidebarState(sideMenu, mainArea);
 
+  if (!sideMenu || !mainArea) {
+    console.warn("⚠️ Sidebar or main-area container not found.");
+  }
+});
   if (!sideMenu || !mainArea) {
     console.warn("⚠️ Sidebar or main-area container not found.");
   }
