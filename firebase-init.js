@@ -1,4 +1,7 @@
-// firebase-init.js
+// -----------------------------------------------------------------------------
+//  firebase-init.js – Hardcoded config (no setup form required)
+// -----------------------------------------------------------------------------
+
 import {
   initializeApp,
   getApps,
@@ -16,22 +19,25 @@ import {
   push,
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-// 🔁 Load Firebase config from localStorage
-let savedConfig = localStorage.getItem("firebaseConfig");
+// 🔐 Hardcoded Firebase config for TaxiUpTax
+const firebaseConfig = {
+  apiKey: "AIzaSyCrEF78YhKW1lnCut3E9yjg8TAYncuptX0",
+  authDomain: "taxiuptax.firebaseapp.com",
+  projectId: "taxiuptax",
+  storageBucket: "taxiuptax.appspot.com",
+  messagingSenderId: "204487687625",
+  appId: "1:204487687625:web:be475ef72eb893b228bc18",
+  databaseURL: "https://taxiuptax-default-rtdb.firebaseio.com"
+};
 
-if (!savedConfig) {
-  alert("Firebase config not found. Please complete the setup.");
-  window.location.href = "config-setup.html";
-  throw new Error("Missing Firebase config");
-}
-
-const firebaseConfig = JSON.parse(savedConfig);
-
+// ✅ Initialize Firebase (once only, for hot reload safety)
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getDatabase(app);
+const auth = getAuth(app);
 
-// ✅ Export everything needed across your app
+// 📦 Export Firebase services for use in your other modules
 export { app, auth, db, ref, get, set, update, remove, child, onValue, push };
