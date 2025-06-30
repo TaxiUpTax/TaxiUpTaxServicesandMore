@@ -1,45 +1,47 @@
-// script.js
 import { initFirebase } from "./firebase-init.js";
 
-const {
-  auth,
-  db,
-  ref,
-  set,
-  onValue
-} = await initFirebase();
+document.addEventListener("DOMContentLoaded", async () => {
+  const {
+    auth,
+    db,
+    ref,
+    set,
+    onValue
+  } = await initFirebase();
 
-const coverPage = document.getElementById("coverPage");
-const authPanel = document.getElementById("authPanel");
-const startBtn = document.getElementById("startBtn");
-const toLoginLink = document.getElementById("toLogin");
+  const coverPage = document.getElementById("coverPage");
+  const authPanel = document.getElementById("authPanel");
+  const startBtn = document.getElementById("startBtn");
+  const toLoginLink = document.getElementById("toLogin");
 
-startBtn?.addEventListener("click", () => {
-  coverPage.style.display = "none";
-  authPanel.classList.remove("hidden");
-  document.getElementById("signUpForm").classList.remove("hidden");
-  document.getElementById("loginForm").classList.add("hidden");
-});
+  // 🟢 Show Sign-Up form from Cover Page
+  startBtn?.addEventListener("click", () => {
+    coverPage.style.display = "none";
+    authPanel.classList.remove("hidden");
+    document.getElementById("signUpForm").classList.remove("hidden");
+    document.getElementById("loginForm").classList.add("hidden");
+  });
 
-toLoginLink?.addEventListener("click", (e) => {
-  e.preventDefault();
-  document.getElementById("signUpForm").classList.add("hidden");
-  document.getElementById("loginForm").classList.remove("hidden");
+  // 🔁 Switch to Login form
+  toLoginLink?.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("signUpForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
 
-  if (!document.getElementById("toSignUp")) {
-    const p = document.createElement("p");
-    p.innerHTML = `Don't have an account yet? <a href="#" id="toSignUp">Sign Up</a>`;
-    document.getElementById("loginForm").appendChild(p);
+    if (!document.getElementById("toSignUp")) {
+      const p = document.createElement("p");
+      p.innerHTML = `Don't have an account yet? <a href="#" id="toSignUp">Sign Up</a>`;
+      document.getElementById("loginForm").appendChild(p);
 
-    document.getElementById("toSignUp").addEventListener("click", (e) => {
-      e.preventDefault();
-      document.getElementById("loginForm").classList.add("hidden");
-      document.getElementById("signUpForm").classList.remove("hidden");
-    });
-  }
-});
+      document.getElementById("toSignUp").addEventListener("click", (e) => {
+        e.preventDefault();
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("signUpForm").classList.remove("hidden");
+      });
+    }
+  });
 
-document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Sign-Up Handler
   const signUpForm = document.getElementById("signUpForm");
   const loginForm = document.getElementById("loginForm");
 
@@ -55,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const { createUserWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js");
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
+
       await set(ref(db, `students/${userCred.user.uid}`), {
         fullName,
         email,
@@ -72,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ✅ Login Handler
   loginForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("loginEmail").value.trim();
@@ -86,11 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 🔐 Show/hide password
   document.getElementById("showPassword")?.addEventListener("change", (e) => {
     const pwField = document.getElementById("loginPassword");
     pwField.type = e.target.checked ? "text" : "password";
   });
 
+  // 🎨 Admin-controlled background styling
   const adminSettingsRef = ref(db, "adminSettings");
   onValue(
     adminSettingsRef,
@@ -109,4 +115,5 @@ document.addEventListener("DOMContentLoaded", () => {
     { onlyOnce: true }
   );
 });
+
 
