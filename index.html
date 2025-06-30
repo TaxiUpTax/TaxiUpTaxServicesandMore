@@ -73,15 +73,17 @@
     <script type="module" src="script.js"></script>
 
     <!-- Optional: redirect if user is already signed in -->
-    <script type="module">
-      import { auth } from "./firebase-init.js";
-      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+  import { initFirebase } from "./firebase-init.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-      onAuthStateChanged(auth, (user) => {
-        if (user && !location.href.includes("home.html")) {
-          window.location.href = "home.html";
-        }
-      });
+const { auth } = await initFirebase();
+
+onAuthStateChanged(auth, (user) => {
+  if (user && !location.href.includes("home.html")) {
+    window.location.href = "home.html";
+  }
+});
+
     </script>
   </body>
 </html>
