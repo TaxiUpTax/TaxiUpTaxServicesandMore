@@ -18,23 +18,25 @@ import {
 
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-fetch("firebase-config.json")
+// Declare outside so they can be exported later
+let app, auth, db;
+
+// 🔁 Load Firebase config from JSON file
+await fetch("firebase-config.json")
   .then((res) => {
     if (!res.ok) throw new Error("Failed to load Firebase config");
     return res.json();
   })
   .then((firebaseConfig) => {
-    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
-
-    // ✅ You can now continue with your app logic here
+    app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getDatabase(app);
   })
   .catch((err) => {
-    alert("Firebase config could not be loaded. Please contact support.");
+    alert("❌ Firebase config could not be loaded.");
     console.error("Firebase config error:", err);
   });
 
-
-// ✅ Export everything needed across your app
+// ✅ Now we can export because they've been assigned
 export { app, auth, db, ref, get, set, update, remove, child, onValue, push };
+
