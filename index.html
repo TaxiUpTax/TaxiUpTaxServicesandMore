@@ -72,17 +72,19 @@
     <script type="module" src="core-enhancements.js"></script>
     <script type="module" src="script.js"></script>
 
-    <!-- Optional: redirect if user is already signed in -->
+   <script type="module">
   import { initFirebase } from "./firebase-init.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-const { auth } = await initFirebase();
+  const { auth } = await initFirebase();
 
-onAuthStateChanged(auth, (user) => {
-  if (user && !location.href.includes("home.html")) {
-    window.location.href = "home.html";
-  }
-});
+  onAuthStateChanged(auth, (user) => {
+    if (user && !location.href.includes("home.html")) {
+      window.location.href = "home.html";
+    }
+  });
+</script>
+
 
     </script>
   </body>
