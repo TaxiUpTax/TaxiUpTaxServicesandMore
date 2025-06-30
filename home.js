@@ -4,7 +4,7 @@
 
 // ✅ Load Firebase and extract everything needed AFTER config is loaded
 import { initFirebase } from "./firebase-init.js";
-const { auth, db, ref, onValue, update, set, remove, get, child, push } = await initFirebase();
+const { auth, db } = await initFirebase();
 
 import {
   onAuthStateChanged,
