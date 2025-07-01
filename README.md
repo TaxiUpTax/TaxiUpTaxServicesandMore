@@ -54,8 +54,8 @@ New users will land directly on the login screen and can sign up or log in right
 ### 🔁 Want to Reuse This for Another Client?
 
 To convert this app into a **reusable template**:
-1. Restore `config-setup.html` and use `localStorage`-based `firebase-init.js`
-2. Remove the hardcoded Firebase object from the current `firebase-init.js`
+1. Ask your client to build and open their own Firebase and copy the Firebase Config File.
+2. Remove the hardcoded Firebase object from the current `firebase-init.js` and change the Firebase config into their own.
 3. Add back the setup flow logic for custom project embedding
 
 Need help preparing a configurable version? Let me know—I can package that for you.
